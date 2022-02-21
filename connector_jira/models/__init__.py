@@ -7,5 +7,6 @@ from . import jira_backend
 from . import jira_issue_type
 from . import project_project
 from . import project_task
+from . import project_project_timelog_type
 from . import res_users
 from . import queue_job

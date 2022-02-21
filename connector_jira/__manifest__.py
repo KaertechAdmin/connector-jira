@@ -9,6 +9,7 @@
     'depends': [
         'connector',
         'project',
+        'project_kanban',
         'hr_timesheet',
         'queue_job',
         'web',
@@ -37,7 +38,7 @@
         'views/jira_backend_views.xml',
         'views/jira_backend_report_templates.xml',
         'views/project_project_views.xml',
-        'views/project_task_views.xml',
+        'views/project_task_views2.xml',
         'views/res_users_views.xml',
         'views/jira_issue_type_views.xml',
         'views/timesheet_account_analytic_line.xml',

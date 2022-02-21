@@ -57,15 +57,13 @@ class ProjectTaskMapper(Component):
         assignee = record['fields'].get('assignee')
         if not assignee:
             return {'user_id': False}
-        jira_key = assignee['key']
+        jira_key = assignee['accountId']
         binder = self.binder_for('jira.res.users')
         user = binder.to_internal(jira_key, unwrap=True)
         if not user:
-            email = assignee['emailAddress']
             raise MappingError(
-                _('No user found with login "%s" or email "%s".'
-                  'You must create a user or link it manually if the '
-                  'login/email differs.') % (jira_key, email)
+                _('No user found with accountId "%s" '
+                  'You must create a user or link it manually ') % (jira_key)
             )
         return {'user_id': user.id}
 
@@ -133,6 +131,16 @@ class ProjectTaskMapper(Component):
         if not original_estimate:
             return {'planned_hours': False}
         return {'planned_hours': float(original_estimate) / 3600.0}
+
+    @mapping
+    def task_type_id(self, record):
+        jira_sme_type = record["fields"]["customfield_10838"]
+        if not jira_sme_type:
+            return {}
+        jira_sme_type_id = jira_sme_type["id"]
+        binder = self.binder_for("jira.project.project.timelog.type")
+        internal = binder.to_internal(jira_sme_type_id)
+        return {'task_type_id': internal.odoo_id.id}
 
     def finalize(self, map_record, values):
         values = values.copy()
@@ -257,9 +265,17 @@ class ProjectTaskImporter(Component):
             self._import_dependency(self.jira_epic['id'], 'jira.project.task',
                                     record=self.jira_epic)
 
+    def _import_dependency_timelog_type(self):
+        jira_sme_type = self.external_record['fields']['customfield_10838']
+        if jira_sme_type:
+            self._import_dependency(jira_sme_type['id'],
+                    'jira.project.project.timelog.type',
+                    record=jira_sme_type)
+
     def _import_dependencies(self):
         """ Import the dependencies for the record"""
         self._import_dependency_assignee()
         self._import_dependency_issue_type()
         self._import_dependency_parent()
         self._import_dependency_epic()
+        self._import_dependency_timelog_type()

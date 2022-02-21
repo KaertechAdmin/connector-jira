@@ -46,6 +46,7 @@ class JiraModelBinder(Component):
 
     _apply_on = [
         'jira.issue.type',
+        'jira.project.project.timelog.type',
     ]
 
     _odoo_field = 'id'

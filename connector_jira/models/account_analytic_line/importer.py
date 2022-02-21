@@ -23,7 +23,7 @@ class AnalyticLineMapper(Component):
     _apply_on = ['jira.account.analytic.line']
 
     direct = [
-        (whenempty('comment', _('missing description')), 'name'),
+        (whenempty('comment', _('No work description for this log')), 'name'),
     ]
 
     @mapping
@@ -73,15 +73,13 @@ class AnalyticLineMapper(Component):
     @mapping
     def author(self, record):
         jira_author = record['author']
-        jira_author_key = jira_author['key']
+        jira_author_key = jira_author['accountId']
         binder = self.binder_for('jira.res.users')
         user = binder.to_internal(jira_author_key, unwrap=True)
         if not user:
-            email = jira_author['emailAddress']
             raise MappingError(
-                _('No user found with login "%s" or email "%s".'
-                  'You must create a user or link it manually if the '
-                  'login/email differs.') % (jira_author_key, email)
+                _('No user found with accountId "%s" '
+                  'You must create a user or link it manually ' ) % (jira_author_key)
             )
         employee = self.env['hr.employee'].with_context(
             active_test=False,

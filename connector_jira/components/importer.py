@@ -526,11 +526,12 @@ class TimestampBatchImporter(AbstractComponent):
             since = timestamp.last_timestamp
             from_date = since.strftime(JIRA_JQL_DATETIME_FORMAT)
             parts.append('updated >= "%s"' % from_date)
-            to_date = until.strftime(JIRA_JQL_DATETIME_FORMAT)
-            parts.append('updated <= "%s"' % to_date)
+            # to_date = until.strftime(JIRA_JQL_DATETIME_FORMAT)
+            # parts.append('updated <= "%s"' % to_date)
 
         next_timestamp = max(until - timedelta(seconds=IMPORT_DELTA), since)
         record_ids = self.backend_adapter.search(' and '.join(parts))
+        # import wdb; wdb.set_trace()
         return (next_timestamp, record_ids)
 
     def _import_record(self, record_id, force=False,

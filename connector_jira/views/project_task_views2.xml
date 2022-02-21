@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2019 Camptocamp SA
+  Copyright 2019 Brainbean Apps (https://brainbeanapps.com)
+  License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
+-->
+<odoo>
+
+  <record id="view_task_form2" model="ir.ui.view">
+    <field name="name">project.task.form</field>
+    <field name="model">project.task</field>
+    <field name="inherit_id" ref="project.view_task_form2"/>
+    <field name="arch" type="xml">
+      <xpath expr="//notebook" position="inside">
+        <page string="Connector" name="connector">
+          <group string="Jira">
+            <field name="jira_bind_ids" nolabel="1"/>
+          </group>
+        </page>
+      </xpath>
+
+      <xpath expr="//field[@name='user_id']" position="after">
+        <field name="task_type_id"/>
+      </xpath>
+
+    </field>
+  </record>
+</odoo>

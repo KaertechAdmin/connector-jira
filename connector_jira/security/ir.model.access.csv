@@ -16,3 +16,6 @@
 "access_jira_issue_type_user","jira_issue_type user","model_jira_issue_type","base.group_user",1,0,0,0
 "access_jira_account_analytic_line","jira_account_analytic_line connector manager","model_jira_account_analytic_line","connector.group_connector_manager",1,1,1,1
 "access_jira_account_analytic_line_manager","jira_account_analytic_line manager","model_jira_account_analytic_line","base.group_user",1,0,0,0
+"access_jira_project_project_timelog_type","jira_project_project_timelog_type connector manager","model_jira_project_project_timelog_type","connector.group_connector_manager",1,1,1,1
+"access_jira_project_project_timelog_type_user","jira_project_project_timelog_type user","model_jira_project_project_timelog_type","base.group_user",1,0,0,0
+"access_jira_project_project_timelog_type_manager","jira_project_project_timelog_type manager","model_jira_project_project_timelog_type","project.group_project_manager",1,1,1,1

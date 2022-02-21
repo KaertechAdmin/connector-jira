@@ -80,6 +80,8 @@ class JiraProjectTask(models.Model):
 class ProjectTask(models.Model):
     _inherit = 'project.task'
 
+    task_type_id = fields.Many2one('project.project.timelog.type', string='Task Type')
+
     jira_bind_ids = fields.One2many(
         comodel_name='jira.project.task',
         inverse_name='odoo_id',
@@ -278,4 +280,6 @@ class TaskAdapter(Component):
         # due to this bug: https://github.com/pycontribs/jira/pull/289
         fields = 'id,updated'
         issues = self.client.search_issues(jql, fields=fields, maxResults=None)
+        # import wdb; wdb.set_trace()
+        # issues = self.client.search_issues(jql + " AND " + 'project=CR', fields=fields, maxResults=None)
         return [issue.id for issue in issues]

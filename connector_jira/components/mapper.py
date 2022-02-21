@@ -157,7 +157,7 @@ def whenempty(field, default_value):
     """
 
     def modifier(self, record, to_attr):
-        value = record[field]
+        value = record.get(field)
         if not value:
             return default_value
         return value
